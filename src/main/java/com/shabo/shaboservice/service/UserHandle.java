@@ -68,24 +68,14 @@ public class UserHandle {
         }
     }
 
-    public String updateToken(User user) {
+    public String updateToken(String username) {
         try {
+            User user = userDao.findByUsername(username);
             Token token = tokenDao.findByUserId(user.getId());
             token.setToken(shaBoTools.createToken(user));
             tokenDao.save(token);
             logger.info("升级token，用户名：" + user.getUsername());
             return token.getToken();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public String updateToken(String username) {
-        try {
-            User user = userDao.findByUsername(username);
-            updateToken(user);
-            return tokenDao.findByUserId(user.getId()).getToken();
         } catch (Exception e) {
             e.printStackTrace();
             return null;
