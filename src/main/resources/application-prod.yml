@@ -1,0 +1,12 @@
+#mysql 配置
+server:
+  port: 8088
+spring:
+  datasource:
+    url: jdbc:mysql://10.144.2.179:3306/shaboservice
+    username: root
+    password: mysql
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true

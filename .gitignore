@@ -1,0 +1,6 @@
+# Created by .ignore support plugin (hsz.mobi)
+.idea/**
+target/**
+
+##避免泄露密码
+src/main/resources/application-dev.yml
