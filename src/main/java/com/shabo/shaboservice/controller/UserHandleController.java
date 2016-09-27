@@ -2,6 +2,9 @@ package com.shabo.shaboservice.controller;
 
 import com.shabo.shaboservice.entity.StMessage;
 import com.shabo.shaboservice.service.UserHandle;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +23,11 @@ public class UserHandleController {
     @Autowired
     private UserHandle userHandle;
 
+    @ApiOperation(value = "注册", notes = "密码长度大于5")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "username", value = "用户名", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String")
+    })
     @RequestMapping(value = "/singup", method = RequestMethod.POST)
     public StMessage singUp(String username, String password) {
         short i = userHandle.singUp(username, password);
@@ -35,6 +43,11 @@ public class UserHandleController {
         }
     }
 
+    @ApiOperation(value = "登录",notes = "会返回token，作为以后操作的凭证")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "username", value = "用户名", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String")
+    })
     @RequestMapping(value = "/singin", method = RequestMethod.POST)
     public StMessage singIn(String username, String password) {
         short st = userHandle.singIn(username, password);
