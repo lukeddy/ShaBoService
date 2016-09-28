@@ -24,7 +24,7 @@ public class UserHandle {
     private Logger logger = Logger.getLogger(UserHandle.class);
 
     public short singUp(String username, String password) {
-        if (username == null || password == null || password.length() < 6) {
+        if (username.equals("") || password.equals("") || password.length() < 6) {
             logger.warn("用户注册信息校验失败");
             return 0;
         } else {
@@ -79,6 +79,24 @@ public class UserHandle {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public short checkUsername(String username) {
+        if (username.equals("")) {
+            logger.warn("用户名为空，不可检查");
+            return -1;
+        }
+        try {
+            User user = userDao.findByUsername(username);
+            if (user == null) {
+                return 1;
+            } else if (user.getUsername().equals(username)) {
+                return 0;
+            } else return 0;//我也不知道我为什么要写这一句
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
         }
     }
 }

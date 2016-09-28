@@ -43,15 +43,15 @@ public class UserHandleController {
         }
     }
 
-    @ApiOperation(value = "登录",notes = "会返回token，作为以后操作的凭证")
+    @ApiOperation(value = "登录", notes = "会返回token，作为以后操作的凭证")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username", value = "用户名", required = true, dataType = "String"),
             @ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String")
     })
     @RequestMapping(value = "/singin", method = RequestMethod.POST)
     public StMessage singIn(String username, String password) {
-        short st = userHandle.singIn(username, password);
-        if (st == 1) {
+        short i = userHandle.singIn(username, password);
+        if (i == 1) {
             logger.info("登陆成功，用户:" + username);
             StMessage stMessage = new StMessage(1);
             stMessage.addMessage("token", userHandle.updateToken(username));
@@ -60,5 +60,17 @@ public class UserHandleController {
             logger.warn("登陆失败，用户：" + username);
             return new StMessage(0);
         }
+    }
+
+    @ApiOperation(value = "检查用户名是否重复", notes = "普通返回")
+    @ApiImplicitParam(name = "username", value = "用户名", required = true, dataType = "String")
+    @RequestMapping(value = "/checkusername", method = RequestMethod.GET)
+    public StMessage checkUsername(String username) {
+        short i = userHandle.checkUsername(username);
+        if (i == 1) {
+            return new StMessage(1);
+        } else if (i == -1) {
+            return new StMessage(-1);
+        } else return new StMessage(0);
     }
 }
